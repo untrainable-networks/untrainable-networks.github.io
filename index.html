@@ -442,6 +442,12 @@ pre {
                     Code
                 </a>
             </div>
+            <div class="paper-btn-coming-soon">
+                <a class="paper-btn" href="https://colab.research.google.com/drive/1jxDeRZzhh5vozcbk_WNg86k11R1ja_3Q?usp=sharing">
+                    <span class="material-icons"> code </span>
+                    Guide
+                </a>
+            </div>
         </div></div>
     </div>
 
@@ -459,7 +465,15 @@ pre {
     </section>
      -->
 
+    <section id="teaser-image">
+        <h2><b>Guidance</b>: Training via representational alignment</h2>
+        <center>
+            <figure>
+                <img src="img/overview_figure.png", style="width:950px">
+            </figure>
 
+        </center>
+    </section>
     <br>
     <section id="abstract"/>
         <hr>
@@ -472,10 +486,7 @@ pre {
     </section>
     <section id="method"/>
         <hr>
-        <h2>Method</h2>
-            <figure>
-                <img src="img/overview_figure.png", style="width:950px">
-            </figure>
+        <h2>What is <i>guidance</i>?</h2>
             <div class="flex-row">
                 <p>
                 We propose <i>Guidance</i> between two networks to make untrainable networks trainable. Given a target which cannot be trained effectively on a task, e.g., a fully connected network (FCN) which immediately overfits on vision tasks, we guide it with another network.
@@ -483,7 +494,7 @@ pre {
             </div>
             <div class="flex-row">
                 <p>
-                    <b>Layer-wise representational alignment</b> In addition to the target's cross-entropy loss, we encourage the network to minimize the representational similarity between target and guide activations layer by layer.
+                    <b>Layer-wise representational alignment</b> In addition to the target's cross-entropy loss, we encourage the network to minimize the representational similarity between target and guide activations layer by layer. We measure the similarity using <i>centered kernel alignment.</i>
                 </p>
             </div>
             <div class="flex-row">
@@ -500,28 +511,32 @@ pre {
 
     <section id="results_overview"/>
     <hr>
-    <h2>Results Overview</h2>
+    <h2>Results: Guidance makes untrainable networks trainable!</h2>
+    <h3><b>Guidance improves performance for image classification across fully connected networks and deep convolutional networks without residual connections, <span style="color: red;">particularly with randomly initialized guide networks</span>.</b> </h3>
         <br><br>
         <div class="mx-auto">
             <center><img class="card-img-top" src="img/image_net.png" style="width:950px"></center>
         </div>
-        <p><b>Guidance improves performance for image classification. </b> We apply guidance on three untrainable networks: (1) a Deep FCN guided by a ResNet-18, (2) a Wide FCN guided by a ResNet-18, and (3) a Deep Convolutional Network guided by ResNet-50. Across all settings, guidance can help
+        <p>We apply guidance on three untrainable networks: (1) a Deep FCN guided by a ResNet-18, (2) a Wide FCN guided by a ResNet-18, and (3) a Deep Convolutional Network guided by ResNet-50. Across all settings, guidance can help
             train architectures that were otherwise considered unsuitable.</p>
+    
+    <h3><b>Guidance improves performance for sequence modeling across 3 tasks that untrainable for both transformers and RNNs.</b> </h3>
 
         <div class="mx-auto">
             <center><img class="card-img-top" src="img/seq_model.png" style="width:950px"></center>
         </div>
-        <p><b>Guidance improves performance for sequence modeling. </b> We apply guidance on across two sequence-based architectures for three sequence modeling tasks: (1) copy-paste with RNN guided by a Transformer, (2) parity with a Transformer guided by an RNN, and (3) language modeling with an RNN guided by a Transformer. RNN performance improves dramatically
-            when aligning with the representations of a Transformer for copy and paste, as well as for language modeling. RNNs close most of the gap to Transformers for language modeling. Transformers in turn, improve parity performance when aligning with an RNN. Guidance is able to transfer priors between networks. </p>
+        <p>We apply guidance on across two sequence-based architectures for three sequence modeling tasks: (1) copy-paste with RNN guided by a Transformer, (2) parity with a Transformer guided by an RNN, and (3) language modeling with an RNN guided by a Transformer. RNN performance improves dramatically
+            when aligning with the representations of a Transformer for copy and paste, as well as for language modeling. <span style="color: red;">RNNs close most of the gap to Transformers for language modeling</span>. Transformers in turn, improve parity performance when aligning with an RNN. Guidance is able to transfer priors between networks. </p>
+    <h3><b>Guidance improves training by preventing overfitting and drives training and validation loss lower than using base training.</b> </h3>
 
         <div class="mx-auto">
-            <center><img class="card-img-top" src="img/training_curves.png" style="width:950px"></center>
+            <center><img class="card-img-top" src="img/training_curve_3.png" style="width:950px"></center>
         </div>
-        <p><b>Training and Validation Curves</b></p>
+        <p><b>Training and Validation Curves</b> We find across all settings that guidance improves training and validation loss. Guidance prevents overfitting and settings where loss saturates.</p>
     </section>
 
     <div class="section">
-        <h2>Error Consistency</h2>
+        <h2>Error Consistency: Functional Properties of Guided Networks</h2>
         <hr>
         <p>
             Given our guided networks, we can analyze the functional properties of the guided network to confirm whether networks adopt priors from their guide networks. Using Deep FCN as our target model, we guide it with a ResNet-18 or a ViT-B-16. We then measure the error consistency between all of the networks.
@@ -551,7 +566,7 @@ pre {
                 </center>
             </a>
             <p class="caption">
-                <b>Disconnecting the guide early can have long-term effects.</b> he Deep FCN
+                <b>Disconnecting the guide early can have long-term effects.</b> The Deep FCN
                 still does not diverge and the training and validation loss still mirror one another. Very likely, an initialization
                 regime exists for Deep FCNs that prevents overfitting. We now have the tools to investigate this question.<br>
         </figure>
